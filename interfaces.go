@@ -145,13 +145,13 @@ type Sequence interface {
 	// end of the collection
 	Append(value interface{}) Sequence
 
-	// Functional Prepend.
-	// Creates a copy of the sequence with a new value at the
-	// start of the collection
-	Prepend(value interface{}) Sequence
+	// // Functional Prepend.
+	// // Creates a copy of the sequence with a new value at the
+	// // start of the collection
+	// Prepend(value interface{}) Sequence
 
-	// Slice. Creates a new sequence
-	Slice(start int, end int) Sequence
+	// // Slice. Creates a new sequence
+	// Slice(start int, end int) Sequence
 }
 
 // A Set is an immutable iterable with no duplicates. Sets support standard
