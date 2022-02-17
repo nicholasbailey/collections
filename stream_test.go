@@ -52,7 +52,7 @@ func TestFoldSimple(t *testing.T) {
 	}
 }
 
-func TestForEach(t *testing.T) {
+func TestForEachSimple(t *testing.T) {
 	data := []interface{}{"a", "b", "c", "d", "e"}
 	stream := buildStream(data)
 
@@ -69,7 +69,7 @@ func TestForEach(t *testing.T) {
 	}
 }
 
-func TestTake(t *testing.T) {
+func TestTakeSimple(t *testing.T) {
 	data := []interface{}{1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11}
 	stream := buildStream(data)
 
@@ -80,7 +80,7 @@ func TestTake(t *testing.T) {
 	}
 }
 
-func TestSkip(t *testing.T) {
+func TestSkipSimple(t *testing.T) {
 	data := []interface{}{1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11}
 	stream := buildStream(data)
 
@@ -91,7 +91,7 @@ func TestSkip(t *testing.T) {
 	}
 }
 
-func TestSkipWhile(t *testing.T) {
+func TestSkipWhileSimple(t *testing.T) {
 	data := []interface{}{2, 2, 2, 4, 2, 6, 7, 2, 9, 10, 11}
 	stream := buildStream(data)
 	actual := stream.SkipWhile(func(v interface{}) bool { return v.(int) == 2 }).ToSlice()
