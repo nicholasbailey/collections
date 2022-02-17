@@ -41,3 +41,7 @@ func (iterable *Stream) Take(count int) Iterable {
 func (stream *Stream) Skip(count int) Iterable {
 	return skipHelper(stream, count)
 }
+
+func (stream *Stream) SkipWhile(matchFn func(interface{}) bool) Iterable {
+	return skipWhileHelper(stream, matchFn)
+}

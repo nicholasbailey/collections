@@ -40,12 +40,12 @@ type Iterable interface {
 
 	// // Returns an Iterable with the items of the Iterable except the first "count" items
 	// // If the Iterable has fewer than "count" items, returns an empty iterable.
-	// Skip(count int) Iterable
+	Skip(count int) Iterable
 
 	// // Skips items in the iterable as long as skipFn is true, and retuns an
 	// // Iterable with the remaining iterables.
 	// SkipWhile(skipFn func(interface{}) bool)
-
+	SkipWhile(matchFn func(interface{}) bool) Iterable
 	// GroupBy(groupFn func(interface{}) interface{}) Iterable
 
 	// // Returns true if any items in the iterable. Note that

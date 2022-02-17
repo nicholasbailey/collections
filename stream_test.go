@@ -90,3 +90,13 @@ func TestSkip(t *testing.T) {
 		t.Fatalf("expected %v, got %v", expected, actual)
 	}
 }
+
+func TestSkipWhile(t *testing.T) {
+	data := []interface{}{2, 2, 2, 4, 2, 6, 7, 2, 9, 10, 11}
+	stream := buildStream(data)
+	actual := stream.SkipWhile(func(v interface{}) bool { return v.(int) == 2 }).ToSlice()
+	expected := []interface{}{4, 2, 6, 7, 2, 9, 10, 11}
+	if !reflect.DeepEqual(expected, actual) {
+		t.Fatalf("expected %v, got %v", expected, actual)
+	}
+}

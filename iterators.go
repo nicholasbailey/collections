@@ -110,3 +110,28 @@ func (iterator *SkipIterator) MoveNext() bool {
 func (iterator *SkipIterator) Current() interface{} {
 	return iterator.baseIterator.Current()
 }
+
+type SkipWhileIterator struct {
+	baseIterator Iterator
+	consumed     bool
+	matchFn      func(interface{}) bool
+}
+
+func (iterator *SkipWhileIterator) MoveNext() bool {
+	if !iterator.consumed {
+		iterator.consumed = true
+		for iterator.baseIterator.MoveNext() {
+			current := iterator.baseIterator.Current()
+			if !iterator.matchFn(current) {
+				return true
+			}
+		}
+		return false
+	}
+
+	return iterator.baseIterator.MoveNext()
+}
+
+func (iterator *SkipWhileIterator) Current() interface{} {
+	return iterator.baseIterator.Current()
+}

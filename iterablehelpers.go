@@ -72,3 +72,14 @@ func skipHelper(iterable Iterable, count int) Iterable {
 		iterator: iterator,
 	}
 }
+
+func skipWhileHelper(iterable Iterable, matchFn func(interface{}) bool) Iterable {
+	iterator := &SkipWhileIterator{
+		baseIterator: iterable.Iterator(),
+		consumed:     false,
+		matchFn:      matchFn,
+	}
+	return &Stream{
+		iterator: iterator,
+	}
+}
