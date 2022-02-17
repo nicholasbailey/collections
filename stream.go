@@ -45,3 +45,7 @@ func (stream *Stream) Skip(count int) Iterable {
 func (stream *Stream) SkipWhile(matchFn func(interface{}) bool) Iterable {
 	return skipWhileHelper(stream, matchFn)
 }
+
+func (stream *Stream) Any(matchFn func(interface{}) bool) bool {
+	return anyHelper(stream, matchFn)
+}

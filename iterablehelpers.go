@@ -83,3 +83,13 @@ func skipWhileHelper(iterable Iterable, matchFn func(interface{}) bool) Iterable
 		iterator: iterator,
 	}
 }
+
+func anyHelper(iterable Iterable, matchFn func(interface{}) bool) bool {
+	iterator := iterable.Iterator()
+	for iterator.MoveNext() {
+		if matchFn(iterator.Current()) {
+			return true
+		}
+	}
+	return false
+}

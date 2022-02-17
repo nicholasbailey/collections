@@ -33,25 +33,26 @@ type Iterable interface {
 	// Note that if the iterable is infinite, this will loop forever.
 	ToSlice() []interface{}
 
-	// // Returns an Iterable with the first "count" items of the Iterable
-	// // If the iterable has fewer than "count" items, returns an iterable
-	// // with all of them.
+	// Returns an Iterable with the first "count" items of the Iterable
+	// If the iterable has fewer than "count" items, returns an iterable
+	// with all of them.
 	Take(count int) Iterable
 
-	// // Returns an Iterable with the items of the Iterable except the first "count" items
-	// // If the Iterable has fewer than "count" items, returns an empty iterable.
+	// Returns an Iterable with the items of the Iterable except the first "count" items
+	// If the Iterable has fewer than "count" items, returns an empty iterable.
 	Skip(count int) Iterable
 
-	// // Skips items in the iterable as long as skipFn is true, and retuns an
+	// Skips items in the iterable as long as skipFn is true, and retuns an
 	// // Iterable with the remaining iterables.
 	// SkipWhile(skipFn func(interface{}) bool)
 	SkipWhile(matchFn func(interface{}) bool) Iterable
-	// GroupBy(groupFn func(interface{}) interface{}) Iterable
 
-	// // Returns true if any items in the iterable. Note that
-	// // if the iterable is infinite and matchFn is false for all items
-	// // it will loop infinitely
-	// Any(matchFn func(interface{}) bool) bool
+	// GroupBy(groupFn func(interface{}) interface{}) Map
+
+	// Returns true if any items in the iterable. Note that
+	// if the iterable is infinite and matchFn is false for all items
+	// it will loop infinitely
+	Any(matchFn func(interface{}) bool) bool
 
 	// // Returns the first item in the iterable matching the matchFn
 	// // and boolean indicating if the value was found. Guarenteed
