@@ -36,7 +36,7 @@ type Iterable interface {
 	// // Returns an Iterable with the first "count" items of the Iterable
 	// // If the iterable has fewer than "count" items, returns an iterable
 	// // with all of them.
-	// Take(count int) Iterable
+	Take(count int) Iterable
 
 	// // Returns an Iterable with the items of the Iterable except the first "count" items
 	// // If the Iterable has fewer than "count" items, returns an empty iterable.
