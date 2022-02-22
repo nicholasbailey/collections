@@ -49,6 +49,7 @@ func (expecter *expecter) ToPanicWith(expected error) {
 	expecter.t.Helper()
 	f := expecter.value.(func())
 	defer func() {
+		expecter.t.Helper()
 		err := recover()
 		if err == nil {
 			expecter.t.Fatalf("expect function to panic but it didn't")
