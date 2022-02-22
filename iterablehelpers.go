@@ -16,9 +16,7 @@ func mapHelper(iterable Iterable, mapFn func(interface{}) interface{}) Iterable 
 		baseIterator: oldIterator,
 		mapFn:        mapFn,
 	}
-	return &Stream{
-		iterator: newIterator,
-	}
+	return NewStream(newIterator)
 }
 
 func filterHelper(iterable Iterable, filterFn func(interface{}) bool) Iterable {
@@ -27,9 +25,7 @@ func filterHelper(iterable Iterable, filterFn func(interface{}) bool) Iterable {
 		baseIterator: oldIterator,
 		filterFn:     filterFn,
 	}
-	return &Stream{
-		iterator: newIterator,
-	}
+	return NewStream(newIterator)
 }
 
 func foldHelper(iterable Iterable, initialValue interface{}, reducerFn func(interface{}, interface{}) interface{}) interface{} {
@@ -57,9 +53,7 @@ func takeHelper(interable Iterable, count int) Iterable {
 		count:        count,
 	}
 
-	return &Stream{
-		iterator: iterator,
-	}
+	return NewStream(iterator)
 }
 
 func skipHelper(iterable Iterable, count int) Iterable {
@@ -68,9 +62,7 @@ func skipHelper(iterable Iterable, count int) Iterable {
 		count:        count,
 		consumed:     false,
 	}
-	return &Stream{
-		iterator: iterator,
-	}
+	return NewStream(iterator)
 }
 
 func skipWhileHelper(iterable Iterable, matchFn func(interface{}) bool) Iterable {
@@ -79,9 +71,7 @@ func skipWhileHelper(iterable Iterable, matchFn func(interface{}) bool) Iterable
 		consumed:     false,
 		matchFn:      matchFn,
 	}
-	return &Stream{
-		iterator: iterator,
-	}
+	return NewStream(iterator)
 }
 
 func anyHelper(iterable Iterable, matchFn func(interface{}) bool) bool {
