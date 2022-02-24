@@ -9,7 +9,7 @@ func buildStream(data []interface{}) *Stream {
 	return NewStream(NewSliceIterator(data))
 }
 
-func TestMapSimple(t *testing.T) {
+func TestStreamMapSimple(t *testing.T) {
 	expect := expectFor(t)
 	data := []interface{}{"A", "B", "C", "D", "E"}
 	stream := buildStream(data)
@@ -24,7 +24,7 @@ func TestMapSimple(t *testing.T) {
 	expect(actual).ToDeepEqual(expected)
 }
 
-func TestMapSwapTypes(t *testing.T) {
+func TestStreamMapSwapTypes(t *testing.T) {
 	expect := expectFor(t)
 	data := []interface{}{"Apple", "Bear", "Cot", "Dinosaur", "Em"}
 	stream := buildStream(data)
@@ -39,7 +39,7 @@ func TestMapSwapTypes(t *testing.T) {
 	expect(actual).ToDeepEqual(expected)
 }
 
-func TestFilterSimple(t *testing.T) {
+func TestStreamFilterSimple(t *testing.T) {
 	expect := expectFor(t)
 
 	data := []interface{}{5, 2, 3, 4, 4}
@@ -53,7 +53,7 @@ func TestFilterSimple(t *testing.T) {
 	expect(actual).ToDeepEqual(expected)
 }
 
-func TestFilterNoMatches(t *testing.T) {
+func TestStreamFilterNoMatches(t *testing.T) {
 	expect := expectFor(t)
 
 	data := []interface{}{5, 2, 3, 4, 4}
@@ -67,7 +67,7 @@ func TestFilterNoMatches(t *testing.T) {
 	expect(actual).ToDeepEqual(expected)
 }
 
-func TestFoldSimple(t *testing.T) {
+func TestStreamFoldSimple(t *testing.T) {
 	expect := expectFor(t)
 
 	data := []interface{}{"a", "b", "c", "d", "e"}
@@ -81,7 +81,7 @@ func TestFoldSimple(t *testing.T) {
 	expect(actual).ToBe(expected)
 }
 
-func TestForEachSimple(t *testing.T) {
+func TestStreamForEachSimple(t *testing.T) {
 	expect := expectFor(t)
 
 	data := []interface{}{"a", "b", "c", "d", "e"}
@@ -98,7 +98,7 @@ func TestForEachSimple(t *testing.T) {
 	expect(actual).ToBe(expected)
 }
 
-func TestTakeSimple(t *testing.T) {
+func TestStreamTakeSimple(t *testing.T) {
 	expect := expectFor(t)
 
 	data := []interface{}{1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11}
@@ -108,9 +108,10 @@ func TestTakeSimple(t *testing.T) {
 	expected := []interface{}{1, 2, 3, 4, 5}
 
 	expect(actual).ToDeepEqual(expected)
+	expect(func() { buildStream(data).Take(-5) }).ToPanicWith(ErrInvalidTakeArgument)
 }
 
-func TestSkipSimple(t *testing.T) {
+func TestStreamSkipSimple(t *testing.T) {
 	expect := expectFor(t)
 	data := []interface{}{1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11}
 	stream := buildStream(data)
@@ -119,9 +120,10 @@ func TestSkipSimple(t *testing.T) {
 	expected := []interface{}{4, 5, 6, 7, 8, 9, 10, 11}
 
 	expect(actual).ToDeepEqual(expected)
+	expect(func() { buildStream(data).Skip(-5) }).ToPanicWith(ErrInvalidSkipArgument)
 }
 
-func TestSkipWhileSimple(t *testing.T) {
+func TestStreamSkipWhileSimple(t *testing.T) {
 	expect := expectFor(t)
 	data := []interface{}{2, 2, 2, 4, 2, 6, 7, 2, 9, 10, 11}
 	stream := buildStream(data)

@@ -47,6 +47,9 @@ func toSliceHelper(iterable Iterable) []interface{} {
 }
 
 func takeHelper(interable Iterable, count int) Iterable {
+	if count < 0 {
+		panic(ErrInvalidTakeArgument)
+	}
 	iterator := &TakeIterator{
 		baseIterator: interable.Iterator(),
 		index:        0,
@@ -57,6 +60,9 @@ func takeHelper(interable Iterable, count int) Iterable {
 }
 
 func skipHelper(iterable Iterable, count int) Iterable {
+	if count < 0 {
+		panic(ErrInvalidSkipArgument)
+	}
 	iterator := &SkipIterator{
 		baseIterator: iterable.Iterator(),
 		count:        count,

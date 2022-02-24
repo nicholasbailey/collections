@@ -1,6 +1,9 @@
 package collections
 
-import "testing"
+import (
+	"strings"
+	"testing"
+)
 
 func TestEmptySliceSequenceSize(t *testing.T) {
 	expect := expectFor(t)
@@ -73,9 +76,9 @@ func TestSliceSequenceUpdate(t *testing.T) {
 func TestSliceSequenceMap(t *testing.T) {
 	expect := expectFor(t)
 
-	slice := NewSliceSequence(1, 2, 3, 4, 5, 6)
+	seq := NewSliceSequence(1, 2, 3, 4, 5, 6)
 
-	actual := slice.Map(func(x interface{}) interface{} { return x.(int) * x.(int) }).ToSlice()
+	actual := seq.Map(func(x interface{}) interface{} { return x.(int) * x.(int) }).ToSlice()
 
 	expect(actual).ToDeepEqual([]interface{}{1, 4, 9, 16, 25, 36})
 }
@@ -83,9 +86,86 @@ func TestSliceSequenceMap(t *testing.T) {
 func TestSliceSequenceFilter(t *testing.T) {
 	expect := expectFor(t)
 
-	slice := NewSliceSequence(1, 2, 3, 4, 5, 6)
+	seq := NewSliceSequence(1, 2, 3, 4, 5, 6)
 
-	actual := slice.Filter(func(x interface{}) bool { return x.(int)%2 == 0 }).ToSlice()
+	actual := seq.Filter(func(x interface{}) bool { return x.(int)%2 == 0 }).ToSlice()
 
 	expect(actual).ToDeepEqual([]interface{}{2, 4, 6})
+}
+
+func TestSliceSequenceForEach(t *testing.T) {
+	expect := expectFor(t)
+
+	seq := NewSliceSequence("Too", "hot!", "Hot", "Damn!")
+
+	result := []string{}
+	fn := func(v interface{}) {
+		if strings.Contains(v.(string), "!") {
+			result = append(result, v.(string))
+		}
+	}
+
+	seq.ForEach(fn)
+
+	expect(result).ToDeepEqual([]string{"hot!", "Damn!"})
+}
+
+func TestSliceSequenceFold(t *testing.T) {
+	expect := expectFor(t)
+	seq := NewSliceSequence("Too", "hot!", "Hot", "Damn!")
+
+	result := seq.Fold("", func(x interface{}, y interface{}) interface{} {
+		if x == "" {
+			return y
+		} else {
+			return x.(string) + " " + y.(string)
+		}
+	})
+
+	expect(result).ToBe("Too hot! Hot Damn!")
+}
+
+func TestSliceSequenceAny(t *testing.T) {
+	expect := expectFor(t)
+	seq1 := NewSliceSequence(float32(1), 1.5, int8(1), 'a')
+	seq2 := NewSliceSequence(float32(1), 1.5, int8(1))
+	fn := func(v interface{}) bool {
+		switch v.(type) {
+		case rune:
+			return true
+		default:
+			return false
+		}
+	}
+	expect(seq1.Any(fn)).ToBe(true)
+	expect(seq2.Any(fn)).ToBe(false)
+}
+
+func TestSliceSequenceSkip(t *testing.T) {
+	expect := expectFor(t)
+	seq := NewSliceSequence("some", "words", "that", "mean", "something")
+	expect(seq.Skip(3).ToSlice()).ToDeepEqual([]interface{}{"mean", "something"})
+	expect(seq.Skip(8).ToSlice()).ToDeepEqual([]interface{}{})
+	expect(func() { seq.Skip(-1) }).ToPanicWith(ErrInvalidSkipArgument)
+}
+
+func TestSliceSequenceTake(t *testing.T) {
+	expect := expectFor(t)
+	seq := NewSliceSequence("Call", "me", "Ishmael", "Some", "years", "ago")
+
+	expect(seq.Take(3).ToSlice()).ToDeepEqual([]interface{}{"Call", "me", "Ishmael"})
+	expect(seq.Take(30).ToSlice()).ToDeepEqual([]interface{}{"Call", "me", "Ishmael", "Some", "years", "ago"})
+	expect(func() { seq.Take(-90) }).ToPanicWith(ErrInvalidTakeArgument)
+}
+
+func TestSliceSequenceSkipWhile(t *testing.T) {
+	expect := expectFor(t)
+
+	seq := NewSliceSequence("Call", "me", "Ishmael", "Some", "years", "ago")
+
+	matchFn := func(v interface{}) bool {
+		return len(v.(string)) < 5
+	}
+
+	expect(seq.SkipWhile(matchFn).ToSlice()).ToDeepEqual([]interface{}{"Ishmael", "Some", "years", "ago"})
 }

@@ -43,8 +43,7 @@ type Iterable interface {
 	Skip(count int) Iterable
 
 	// Skips items in the iterable as long as skipFn is true, and retuns an
-	// // Iterable with the remaining iterables.
-	// SkipWhile(skipFn func(interface{}) bool)
+	// Iterable with the remaining items.
 	SkipWhile(matchFn func(interface{}) bool) Iterable
 
 	// GroupBy(groupFn func(interface{}) interface{}) Map

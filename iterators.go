@@ -4,20 +4,6 @@ package collections
 // which wrap a base iterator and modify its behavior.
 // This is the standard way of supporting functions like Map and Filter
 
-// An iterator with no elements
-type EmptyIterator struct {
-}
-
-// Advances the Iterator by one step
-func (empty *EmptyIterator) MoveNext() bool {
-	return false
-}
-
-// Returns the current item in the Iterator
-func (empty *EmptyIterator) Current() interface{} {
-	panic(ErrIterationOutOfRange)
-}
-
 // An Iterator backed by a sequence, which handles iteration
 // through calls to Sequence.Get. Note that this is not
 // guarenteed to be the most efficient way to iterate through

@@ -1,5 +1,14 @@
 package collections
 
+// A Stream is a lazy iterable that wraps an arbitrary
+// iterator. Streams are rarely constructed directly,
+// but are the conventional return type for most of the functional
+// iteration methods (Map, Filter, etc.)
+//
+// Note that streams are generally *not* iterable multiple times, but
+// provide no guards against multiple iteration. This may change in a
+// future release where we may enforce single-time iteration
+// per stream
 type Stream struct {
 	iterator Iterator
 }
