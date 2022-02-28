@@ -22,3 +22,7 @@ var ErrInvalidSkipArgument = errors.New("count in Skip must be non-negative")
 
 // Error for when a negative integer is passed to take
 var ErrInvalidTakeArgument = errors.New("count in Skip must be non-negative")
+
+var ErrUnhashableType = errors.New("unhashable type")
+
+var ErrImpossible = errors.New("impossible state reached. Something is wrong in collections source code")

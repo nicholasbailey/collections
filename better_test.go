@@ -3,12 +3,38 @@ package collections
 import (
 	"errors"
 	"fmt"
+	"math/rand"
 	"reflect"
 	"testing"
+	"time"
 )
 
 // TODO - This should probably be replaced
 // with Gomega or Assert
+
+type faker struct {
+	rand *rand.Rand
+}
+
+func fakerFor(t *testing.T) *faker {
+	return &faker{
+		rand.New(rand.NewSource(time.Now().UnixNano())),
+	}
+}
+
+var randomStringCharacters = []rune("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890!@#$%^&*(),.<>/?;':")
+
+func (faker *faker) String(minLength int, maxLength int) string {
+	length := -1
+	for length <= minLength {
+		length = rand.Intn(maxLength)
+	}
+	runeSlice := make([]rune, length)
+	for i := 0; i < length; i++ {
+		runeSlice[i] = randomStringCharacters[rand.Intn(length)]
+	}
+	return string(runeSlice)
+}
 
 type expecter struct {
 	t      *testing.T
@@ -63,7 +89,7 @@ func (expecter *expecter) ToBe(expected interface{}) {
 		func() bool {
 			return expecter.value == expected
 		},
-		func() string { return fmt.Sprintf("%v to equal %v", expected, expecter.value) },
+		func() string { return fmt.Sprintf("%v to equal %v", expecter.value, expected) },
 	)
 }
 
@@ -71,7 +97,7 @@ func (expecter *expecter) ToDeepEqual(expected interface{}) {
 	expecter.t.Helper()
 	expecter.doCheck(
 		func() bool { return reflect.DeepEqual(expecter.value, expected) },
-		func() string { return fmt.Sprintf("%v to deep equal %v", expected, expecter.value) },
+		func() string { return fmt.Sprintf("%v to deep equal %v", expecter.value, expected) },
 	)
 }
 
@@ -79,7 +105,7 @@ func (expecter *expecter) ToBeAssignableTo(expected reflect.Type) {
 	expecter.t.Helper()
 	expecter.doCheck(
 		func() bool { return reflect.TypeOf(expecter.value).AssignableTo(expected) },
-		func() string { return fmt.Sprintf("%v to be assignable to %v", expected, expecter.value) },
+		func() string { return fmt.Sprintf("%v to be assignable to %v", expecter.value, expected) },
 	)
 }
 
